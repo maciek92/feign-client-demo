@@ -1,0 +1,6 @@
+[
+  {"userId": 1, "login": "user_feign_1"},
+  {"userId": 2, "login": "user_feign_2"},
+  {"userId": 3, "login": "user_feign_3"},
+  {"userId": 4, "login": "user_feign_4"}
+]

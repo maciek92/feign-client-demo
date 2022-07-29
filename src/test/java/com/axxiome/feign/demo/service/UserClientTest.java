@@ -14,6 +14,8 @@ import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.put;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +29,7 @@ class UserClientTest {
     public UserClient userClient;
 
     @Test
-    void getUsers_whenValidClient_returnValidResponse() {
+    void getUsers_whenValidClient_returnUsersList() {
         // given
         stubFor(get(urlEqualTo("/users"))
                 .willReturn(aResponse()
@@ -47,6 +49,17 @@ class UserClientTest {
     }
 
     @Test
+    void updateUser_whenValidClient_returnUserUpdated() {
+        // given
+        stubFor(put(urlEqualTo("/users/1"))
+                .willReturn(aResponse()
+                        .withStatus(HttpStatus.NO_CONTENT.value())
+                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)));
+        // when, then
+        userClient.updateUser(1L, new User(1L, "new_login"));
+    }
+
+    @Test
     void getUsers_whenCredentialsAreNotValid_throwUserNotAuthorizedException() {
         // given
         stubFor(get(urlEqualTo("/users"))
@@ -60,7 +73,6 @@ class UserClientTest {
     @SneakyThrows
     private String readFile(String fileName) {
         return new String(getClass().getClassLoader().getResourceAsStream(fileName).readAllBytes());
-
     }
 
 }

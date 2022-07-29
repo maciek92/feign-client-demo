@@ -3,6 +3,7 @@ package com.axxiome.feign.demo.service;
 import com.axxiome.feign.demo.config.UserClientConfiguration;
 import com.axxiome.feign.demo.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -13,4 +14,7 @@ public interface UserClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/users")
     List<User> getUsers();
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/users/{userId}", consumes = "application/json")
+    void updateUser(@PathVariable("userId") Long userId, User user);
 }
